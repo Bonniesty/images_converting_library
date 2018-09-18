@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 # encoding: utf-8
 #Author - Prateek Mehta
+#Author - Tianyi Sun add to download prictures 	
 
 
 import tweepy #https://github.com/tweepy/tweepy
 import json
+import urllib
+import os
+import urllib
 
 
 #Twitter API credentials
-consumer_key = " "
-consumer_secret = " "
-access_key = " "
-access_secret = " "
+consumer_key = "woJu1qdq4B0xe5D9YJZpZ08Ev"
+consumer_secret = "vKRaZcGg77kvyK0PI4EifYJXaOqtfwGsxqWB1WMyhPU99xfpBh"
+access_key = "725932229839347713-p2AKH6Ek2mhUpDBWYBdq8VIOud0ZMwS"
+access_secret = "7qVmPUFc47oodAxAKHzx9gx9xHEFn2EpCeqnO0rKQZ3Jh"
 
 
 def get_all_tweets(screen_name):
@@ -48,18 +52,31 @@ def get_all_tweets(screen_name):
         oldest = alltweets[-1].id - 1
         if(len(alltweets) > 15):
             break
-        print "...%s tweets downloaded so far" % (len(alltweets))
+        print("...%s tweets downloaded so far" % (len(alltweets)))
 
     #write tweet objects to JSON
     file = open('tweet.json', 'w')
-    print "Writing tweet objects to JSON please wait..."
+    print("Writing tweet objects to JSON please wait...")
+
+
+    picSet = []
     for status in alltweets:
-        json.dump(status._json,file,sort_keys = True,indent = 4)
+        #json.dump(status._json,file,sort_keys = True,indent = 4)
+        tempData = status.entities.get('media',[])
+        if(len(tempData)>0):
+        	picSet.append(tempData[0]['media_url'])
+
+    indexs = 0
+     
+    for i in picSet:
+    	urllib.request.urlretrieve(i,"./pics/pic%03d.jpg"%indexs)  
+    	indexs=indexs+1
+    	print(i+" has been downloaded!") 	
 
     #close the file
-    print "Done"
+    print("Done")
     file.close()
 
 if __name__ == '__main__':
     #pass in the username of the account you want to download
-    get_all_tweets("@Ibra_official")
+    get_all_tweets("SelenaActivity")
