@@ -12,10 +12,10 @@ import urllib
 
 
 #Twitter API credentials
-consumer_key = "woJu1qdq4B0xe5D9YJZpZ08Ev"
-consumer_secret = "vKRaZcGg77kvyK0PI4EifYJXaOqtfwGsxqWB1WMyhPU99xfpBh"
-access_key = "725932229839347713-p2AKH6Ek2mhUpDBWYBdq8VIOud0ZMwS"
-access_secret = "7qVmPUFc47oodAxAKHzx9gx9xHEFn2EpCeqnO0rKQZ3Jh"
+consumer_key = " "
+consumer_secret = " "
+access_key = " "
+access_secret = " "
 
 
 def get_all_tweets(screen_name):
