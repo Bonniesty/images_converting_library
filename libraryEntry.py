@@ -7,4 +7,11 @@ def entryLib(youTwitterAccount):
     textDetectAndGenerate.generateVideo()
 
 if __name__ == '__main__':
-    entryLib(sys.argv[1])
+    try:
+        inputAccount = sys.argv[1]
+    except:
+        print("Oops! There is no twitter account!")
+    else:
+        entryLib(inputAccount)
+
+    
