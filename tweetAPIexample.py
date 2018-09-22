@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
-#Author - Tianyi Sun add to download prictures 	
+#Author - Tianyi Sun add to download prictures
 
 
 import tweepy #https://github.com/tweepy/tweepy
 import json
 import urllib
 import os
-import urllib
+
 
 
 #Twitter API credentials
-consumer_key = " "
-consumer_secret = " "
-access_key = " "
-access_secret = " "
+consumer_key = "woJu1qdq4B0xe5D9YJZpZ08Ev"
+consumer_secret = "vKRaZcGg77kvyK0PI4EifYJXaOqtfwGsxqWB1WMyhPU99xfpBh"
+access_key = "725932229839347713-p2AKH6Ek2mhUpDBWYBdq8VIOud0ZMwS"
+access_secret = "7qVmPUFc47oodAxAKHzx9gx9xHEFn2EpCeqnO0rKQZ3Jh"
 
 
 def get_all_tweets(screen_name):
@@ -58,6 +58,7 @@ def get_all_tweets(screen_name):
     print("Writing tweet objects to JSON please wait...")
 
 
+
     picSet = []
     for status in alltweets:
         #json.dump(status._json,file,sort_keys = True,indent = 4)
@@ -66,11 +67,11 @@ def get_all_tweets(screen_name):
         	picSet.append(tempData[0]['media_url'])
 
     indexs = 0
-     
+
     for i in picSet:
-    	urllib.request.urlretrieve(i,"./pics/pic%03d.jpg"%indexs)  
+    	urllib.request.urlretrieve(i,"./pics/pic%03d.jpg"%indexs)
     	indexs=indexs+1
-    	print(i+" has been downloaded!") 	
+    	print(i+" has been downloaded!")
 
     #close the file
     print("Done")
