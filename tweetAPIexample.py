@@ -73,10 +73,16 @@ def get_all_tweets(screen_name):
     	indexs=indexs+1
     	print(i+" has been downloaded!")
 
+    #if there's no images
+    if len(picSet) = 0:
+        print("No Pictures of this account!!!")
     #close the file
     print("Done")
     file.close()
 
 if __name__ == '__main__':
     #pass in the username of the account you want to download
-    get_all_tweets("SelenaActivity")
+    try:
+        get_all_tweets("SelenaActivity")
+    except Exception:
+        print("The account is invalid!!")
