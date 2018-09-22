@@ -15,13 +15,27 @@ The final demo video is named as ```outputVedio.mp4``` and the pictures with ann
 
 
 # how to use
-There are two APIs as ```tweetAPIexample``` and ```textDectectAndGenerate```. You can use the first API to download pictures from selected twitter acount, and the second API to add described annotations and generate video.
+There are two APIs as ```tweetAPIexample``` and ```textDectectAndGenerate```. You can use the first API to download pictures from selected twitter acount, and the second API to add described annotations and generate video. You have to get twitter API credentials to use the first API. If you don't have credentials, submit a issue to get a API credentials for a try. 
 
+
+* To download images from twitter account, you can fill in the credentials, and run the following code:
+```python
+python tweetAPIexample.py
+```
+  Then you can run the second API to generat video. 
+```python
+python textDetectAndGenerate.py
+```
 * If you would like to use images from your own sources, just add your pictures in the ```pics``` file, then simply run:
 ```python
 python textDetectAndGenerate.py
 ```
   Then, pictures with annotations will be generated in ```labeledPics``` file and a video will be generated as ```outputVedio.mp4```
   
+* To get a faster start, run the folling code. You only need to fill the Twitter account, and this library will generate the video for you.  
+```python
+python libraryEntry.py youTwitterAccount(eg. @SelenaActivity)
+```
+ 
 
 
