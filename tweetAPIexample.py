@@ -9,13 +9,14 @@ import urllib
 import os
 
 import pymysql
-password = "210000nian"
+import pymongo
+password = " "
 
 #Twitter API credentials
-consumer_key = "woJu1qdq4B0xe5D9YJZpZ08Ev"
-consumer_secret = "vKRaZcGg77kvyK0PI4EifYJXaOqtfwGsxqWB1WMyhPU99xfpBh"
-access_key = "725932229839347713-p2AKH6Ek2mhUpDBWYBdq8VIOud0ZMwS"
-access_secret = "7qVmPUFc47oodAxAKHzx9gx9xHEFn2EpCeqnO0rKQZ3Jh"
+consumer_key = " "
+consumer_secret = " "
+access_key = " "
+access_secret = " "
 
 
 def get_all_tweets(screen_name):
@@ -26,6 +27,12 @@ def get_all_tweets(screen_name):
     except Exception as e:
         print('connection error!')
         raise e
+
+    #connect to mongodb
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    mydb = myclient["mongo_proj"]
+    mycol = mydb["user"]
+
 
 
 
@@ -94,10 +101,15 @@ def get_all_tweets(screen_name):
     cursor = db.cursor()
     sql = """INSERT INTO user(twtaccount_id,log) VALUES (%s, %s)"""
     try:
+        #pass
         cursor.execute(sql,(screen_name, picLog))
         db.commit()
     except:
         db.rollback()
+
+    #mongo insert user info
+    data = {'twtaccount_id':screen_name, 'log':picLog}
+    mycol.insert(data)
 
     print("--------------------------------------------")
     print("Data stored into Database!")

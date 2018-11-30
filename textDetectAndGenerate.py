@@ -8,7 +8,8 @@ from PIL import ImageDraw
 import dbc
 
 import pymysql
-password = "210000nian"
+import pymongo
+password = " "
 
 
 
@@ -42,6 +43,7 @@ def generateVideo(youTwitterAccount):
 		labels = response.label_annotations
 		#str1=" ".join(str(x.description) for x in labels )
 
+		#connect mysql
 		try:
 			db = pymysql.connect("localhost","root",password,"db_proj")
 		except Exception as e:
@@ -50,11 +52,20 @@ def generateVideo(youTwitterAccount):
 		cursor = db.cursor()
 		sql = "INSERT INTO label(twtaccount_id, labels) VALUES (%s,%s)"
 		for label in labels:
-			try:			
+			try:
+				#pass
 				cursor.execute(sql,(account,label.description))
 				db.commit()
 			except:
 				db.rollback()
+
+		#connect mongodb
+		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+		mydb = myclient["mongo_proj"]
+		mycol = mydb["label"]
+		for label in labels:
+			data = {'twtaccount_id':account,'labels':label.description}
+			mycol.insert(data)
 		print("Data stored into Database!")
 
 
@@ -103,4 +114,5 @@ def generateVideo(youTwitterAccount):
 
 
 if __name__ == '__main__':
-	generateVideo()
+
+	generateVideo('SelenaActivity')
