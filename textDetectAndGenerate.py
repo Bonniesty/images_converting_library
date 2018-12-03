@@ -1,9 +1,18 @@
 import io
 import os
+import sys
 import PIL
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
+import dbc
+
+import pymysql
+import pymongo
+password = " "
+
+
+
 
 
 # Imports the Google Cloud client library
@@ -13,8 +22,8 @@ from google.cloud.vision import types
 # Instantiates a client
 client = vision.ImageAnnotatorClient()
 
-def generateVideo():
-	def generaPics(paths):
+def generateVideo(youTwitterAccount):
+	def generaPics(paths,account):
 		pathName = paths
 		paths = "pics/"+paths
 		# The name of the image file to annotate
@@ -34,9 +43,35 @@ def generateVideo():
 		labels = response.label_annotations
 		#str1=" ".join(str(x.description) for x in labels )
 
+		#connect mysql
+		try:
+			db = pymysql.connect("localhost","root",password,"db_proj")
+		except Exception as e:
+			print("connect error!")
+			raise e
+		cursor = db.cursor()
+		sql = "INSERT INTO label(twtaccount_id, labels) VALUES (%s,%s)"
+		for label in labels:
+			try:
+				#pass
+				cursor.execute(sql,(account,label.description))
+				db.commit()
+			except:
+				db.rollback()
+
+		#connect mongodb
+		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+		mydb = myclient["mongo_proj"]
+		mycol = mydb["label"]
+		for label in labels:
+			data = {'twtaccount_id':account,'labels':label.description}
+			mycol.insert(data)
+		print("Data stored into Database!")
 
 
-		font=ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeMono.ttf", 30)
+
+		#draw labels
+		font=ImageFont.truetype("FreeMono.ttf", 30)
 
 		imageFile=paths
 		im1=Image.open(imageFile)
@@ -53,7 +88,7 @@ def generateVideo():
 	dirs.sort()
 
 	for filesDir in dirs:
-		generaPics(filesDir)
+		generaPics(filesDir,youTwitterAccount)
 
 	dirs=os.listdir("./labeledPics/")
 	for paths in dirs:
@@ -71,9 +106,13 @@ def generateVideo():
 		print("hase been labeled!")
 
 	#generate video
+
 	command="ffmpeg -framerate 1 -i ./labeledPics/pic%03d.jpg outputVedio.mp4 -vf scale=900:1100"
 	p=os.popen(command)
 	p.close()
+	print("video finished!")
+
 
 if __name__ == '__main__':
-	generateVideo()
+
+	generateVideo('SelenaActivity')

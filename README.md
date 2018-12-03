@@ -5,8 +5,10 @@ Using and needed to be installed:
   - [Tweepy](http://docs.tweepy.org/en/v3.5.0/)  - to get API data response
   - [FFMPEG](https://www.ffmpeg.org/) - to convert images to video
   - [Google Vision API](https://cloud.google.com/vision/) - to label products in the picture
+  - [PyMysql](https://pymysql.readthedocs.io/en/latest/user/examples.html) - to connect Mysql use python
+  - [PyMongo](https://api.mongodb.com/python/current/) - to connect MongoDB use python
 
-
+# For proj1
 # demo 
 Some images of twitter account **SelenaActivity** are downloaded through Tweepy in ```pics``` file.
 
@@ -36,6 +38,32 @@ python textDetectAndGenerate.py
 ```python
 python libraryEntry.py youTwitterAccount(eg. @SelenaActivity)
 ```
+# For proj3
+Quich Start -- Just run the following code and check the console hint!
+```python
+python libraryEntry.py
+```
+# To use MySql Database
+create database and table in mysql terminal.
+```
+create table user ( 
+user_id INT NOT NULL AUTO_INCREMENT, 
+twtaccount_id VARCHAR(45),
+log VARCHAR(100), 
+PRIMARY KEY (user_id));
+
+create table label(
+id INT NOT NULL AUTO_INCREMENT, 
+twtaccount_id VARCHAR(45), 
+labels VARCHAR(45),
+PRIMARY KEY (id));
+
+```
+
+# To use MongoDB Database
+The mongoDB database will not be created until it has content! Just run ```libraryEntry.py```.
+
+
  
 
 
